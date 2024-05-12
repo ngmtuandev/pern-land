@@ -1,6 +1,10 @@
 const path = {
     PUBLIC_LAYOUT: '/',
-    HOME: ""
+    HOME: "",
+    ABOUT_US: "about-us",
+    OUR_AGENTS: "our-agent",
+    PROPERTIES: "properties",
+    SEARCH: "search"
 }
 
 export default path;
