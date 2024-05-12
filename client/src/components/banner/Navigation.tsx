@@ -4,8 +4,15 @@ import { navigations } from '../../utils/constant'
 import clsx from 'clsx'
 import withRouter from '../../hocs/withRouter'
 import { twMerge } from 'tailwind-merge'
+import { useUserStore } from '../../store/useUserStore'
+import { useModelStore } from '../../store/useModelStore'
+import Login from '../author/Login'
 
 const Navigation = ({location}: any) => {
+
+  const { token } = useUserStore();
+  const { setModel } : any = useModelStore();
+
   return (
     <div className={clsx('h-[85px] flex items-center justify-between fixed w-full top-[85px] z-50 px-[100px] py-[26px]', 
       location.pathname === '/' ? 'bg-transparent' : 'bg-white'
@@ -23,9 +30,19 @@ const Navigation = ({location}: any) => {
             </NavLink>
           ))
         }
+        {
+        
+        token ? 
         <Button styleCss={twMerge(clsx(location.pathname === '/' && 'bg-transparent border border-white'))}>
           Add Listing
         </Button>
+        : 
+        <Button 
+        handleOnClick={() => setModel(true, <Login/>)}
+        styleCss={twMerge(clsx(location.pathname === '/' && 'bg-transparent border border-white'))}>
+          Sign in
+        </Button>
+        }
       </div>
     </div>
   )

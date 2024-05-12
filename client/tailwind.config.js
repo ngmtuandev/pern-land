@@ -5,10 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      agbalumo: ["Agbalumo"]
+    },
     extend: {
       backgroundColor: {
         "yellow-bold-main": "#FFBA00",
-        "ogrin-700": "#E56700"
+        "ogrin-700": "#E56700",
+        "overlay-30": "rgba(0,0,0,0.3)",
+        "overlay-50": "rgba(0,0,0,0.5)"
       },
       colors: {
         "yellow-bold-main": "#FFBA00",
