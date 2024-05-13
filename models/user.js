@@ -2,6 +2,11 @@
 const {
   Model
 } = require('sequelize');
+
+// hash password
+const bcrypt = require("bcrypt");
+
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -15,11 +20,20 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     name: DataTypes.STRING,
-    phone: DataTypes.STRING,
+    phone: DataTypes.STRING, 
     email: DataTypes.STRING,
     address: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      set(value){
+        const createSaltPassword = bcrypt.genSaltSync(10);
+        this.setDataValue('password', bcrypt.hashSync(value, createSaltPassword));
+      }
+    },
+    role: {
+      type: DataTypes.ENUM,
+      values: ['ADMIN', 'AGENT', 'USER']
+    },
     avatar: DataTypes.STRING,
   }, {
     sequelize,

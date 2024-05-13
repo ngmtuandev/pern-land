@@ -1,0 +1,21 @@
+### Register
+
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "password": "123445",
+    "name": "manhtuan",
+    "phone": "1235466",
+    "role": "AGENT"
+}
+
+###
+
+POST http://localhost:5000/api/auth/sign-in
+Content-Type: application/json
+
+{
+    "password": "123445",
+    "phone": "1235466"
+}
