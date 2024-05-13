@@ -1,9 +1,75 @@
 import clsx from "clsx"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import InputForm from "../input/InputForm"
+import Button from "../commons/Button"
+import InputRadio from "../input/InputRadio"
+import { apiRegister, apiSignIn } from "../../apis/auth"
+import Swal from "sweetalert2"
+import { toast } from "react-toastify"
+import withRouter from "../../hocs/withRouter"
+import { useModelStore } from "../../store/useModelStore"
+import { useUserStore } from "../../store/useUserStore"
 
 const Login = () => {
 
-  const [varient, setVarient] = useState('LOGIN')
+  const [varient, setVarient] = useState('LOGIN');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { register, formState: {errors}, handleSubmit, reset } = useForm();
+
+  const {setModel} : any = useModelStore();
+  const {token, handleSetToken} : any = useUserStore();
+
+  console.log('check token : ', token);
+
+  const handleLoading = (flag : boolean) => setIsLoading(flag);
+
+  useEffect(() => {
+    reset();
+  }, [varient])
+
+  const handleOnSubmitSuccess = async (data: any) => {
+    handleLoading(true);
+    if (varient === 'REGISTER') {
+      const rs = await apiRegister(data);
+      handleLoading(false);
+      if (rs?.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Register account successfully",
+          showConfirmButton: true,
+          confirmButtonText: "Go to Login"
+        }).then(({ isConfirmed }) => {
+          if(isConfirmed) {
+            setVarient('LOGIN');
+          }
+        })
+        return;
+      }
+      else {
+        toast.error('Register failure');
+        return;
+      }
+    }
+
+    else {
+      const {name, role, ...payload} = data;
+      handleLoading(true);
+      const rs = await apiSignIn(payload);
+      handleLoading(false);
+      if (rs?.statusCode! === 200) {
+        // console.log('access token ', rs?.accessToken);
+        handleSetToken(rs?.accessToken);
+        toast.success('Login success'); 
+        setModel(false, null); 
+      }
+      else {
+        toast.error('Login failure');
+      }
+    }
+
+  }
 
   return (
     <div 
@@ -18,8 +84,41 @@ const Login = () => {
         onClick={() => setVarient('REGISTER')}
         className={clsx(varient === 'REGISTER' && 'border-b-2 border-yellow-bold-main cursor-pointer', 'cursor-pointer')}>New Account</span>
       </div>
+      <form className="flex flex-col w-full px-4">
+        <InputForm label='Phone Number' inputClassName='rounded-md' register={register} 
+        id='phone' placeholder='Type your phone number here' 
+        errors={errors} validate={{
+          required: 'Must be full',
+          pattern: {
+            value: /(0[3|5|7|8|9])+([0-9]{8})\b/,
+            message: 'Phone number invalid !'
+          }
+        }}></InputForm>
+        <InputForm label='Password' inputClassName='rounded-md' register={register} 
+        id='password' placeholder='Password your number here' errors={errors}
+        type="password" validate={{required: 'Must be full'}}></InputForm>
+        {
+          varient === 'REGISTER' &&  
+          <InputForm label='Your Fullname' inputClassName='rounded-md' register={register} 
+          id='name' placeholder='Type your fullname number here' 
+          errors={errors} validate={{required: 'Must be full'}}></InputForm>     
+        }
+        {
+          varient === 'REGISTER' && 
+          <InputRadio label='Type Account' register={register} 
+            id='role' validate={{required: 'Must be full'}}
+            options={[
+              {label: 'User', value: 'USER'},
+              {label: 'Agent', value: 'AGENT'}
+            ]}  
+          ></InputRadio>
+        }
+        <div className="mt-2">
+          <Button handleOnClick={handleSubmit(handleOnSubmitSuccess)} containerClassName='w-full'>{varient === 'LOGIN' ? 'Sign in' : 'Register'}</Button>
+        </div>
+      </form>
     </div>
   )
 }
 
-export default Login
+export default withRouter(Login)
