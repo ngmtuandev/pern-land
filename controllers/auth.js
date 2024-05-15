@@ -5,12 +5,14 @@ const jwt_token = require('jsonwebtoken');
 
 
 exports.register = asyncHandler( async (req, res) => {
-
+    
     const {password, phone, name, role} = req.body;
+    
+    console.log('role code : ', role);
 
     const checkUser = await db.User.findOrCreate({
         where: {phone: phone},
-        defaults: {password, phone, name, role}
+        defaults: {password, phone, name, roleCode: role}
     })
 
     return res.status(200).json({

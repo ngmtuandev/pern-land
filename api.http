@@ -4,10 +4,10 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "password": "123445",
+    "password": "111111",
     "name": "manhtuan",
-    "phone": "1235466",
-    "role": "AGENT"
+    "phone": "0363073478",
+    "role": "ROLE2"
 }
 
 ###

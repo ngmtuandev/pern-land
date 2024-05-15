@@ -25,3 +25,51 @@ exports.verifyToken = (req, res, next) => {
     })
 
 }
+
+
+exports.checkRoleAgent = (req, res, next) => {
+    const { role } = req.user;
+
+    if (role === 'ROLE4') {
+        return res.status(401).json({
+            statusCode: 401,
+            message: 'You not accept unauthorization'
+        })
+    }
+    next();
+}
+
+exports.checkRoleAdmin = (req, res, next) => {
+    const { role } = req.user;
+
+    if (role === 'ROLE1' || role === 'ROLE3' || role === 'ROLE2') {
+        return res.status(401).json({
+            statusCode: 401,
+            message: 'You not accept unauthorization'
+        })
+    }
+    next();
+}
+
+exports.checkRoleOwnerProperty = (req, res, next) => {
+    const { role } = req.user;
+
+    if (role !== 'ROLE1' || role !== 'ROLE2') {
+        return res.status(401).json({
+            statusCode: 401,
+            message: 'You not accept unauthorization'
+        })
+    }
+    next();
+}
+
+
+
+
+
+
+
+
+
+
+
