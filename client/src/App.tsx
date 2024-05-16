@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { useUserStore } from "./store/useUserStore"
 import { useEffect } from "react"
+import { AdminLayout, CreatePropertyType, DashBoard, ManagePropertyType } from "./pages/admin"
 
 
 
@@ -36,6 +37,9 @@ function App() {
       theme="light"
       />
       <Routes>
+
+        {/* User */}
+
         <Route path={path.PUBLIC_LAYOUT} element={<LayoutPublic/>}>
           <Route path={path.HOME} element={<Home/>}/>
           <Route path={path.ABOUT_US} element={<AboutUs/>}/>
@@ -43,6 +47,14 @@ function App() {
           <Route path={path.PROPERTIES} element={<Properties/>}/>
           <Route path={path.SEARCH} element={<Search/>}/>
         </Route>
+        
+        {/* Admin */}
+        <Route path={path.ADMIN_LAYOUT} element={<AdminLayout/>}>
+          <Route path={path.ADMIN_DASHBOARD} element={<DashBoard/>}></Route>
+          <Route path={path.ADMIN_CREATE_PROPERTY_TYPE} element={<CreatePropertyType/>}></Route>
+          <Route path={path.ADMIN_MANAGE_PROPERTY_TYPE} element={<ManagePropertyType/>}></Route>
+        </Route>
+
       </Routes>
     </div>
   )
