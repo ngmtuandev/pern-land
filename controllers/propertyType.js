@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const db = require('../models');
-const { where, Sequelize, or } = require('sequelize');
-
+const { Sequelize } = require('sequelize');
+const redis = require('../config/redis.config');
 
 exports.createNewPropertyType = asyncHandler( async (req, res) => {
 
@@ -26,8 +26,6 @@ exports.createNewPropertyType = asyncHandler( async (req, res) => {
 exports.getPropertyTypes = asyncHandler( async (req, res) => {
 
     const { limit, page, fields, type, name, sort, ...query } = req.query;
-
-    // console.log('filed : ', fields); => id,name
 
     const options = {};
 
@@ -56,8 +54,6 @@ exports.getPropertyTypes = asyncHandler( async (req, res) => {
             }
             else options.attributes = attributes;
         }
-    // console.log('option : ', options ) // squelize : attributes: {attributes: ['id','name']}
-
 
     // Filter
     if (name) {
@@ -73,7 +69,19 @@ exports.getPropertyTypes = asyncHandler( async (req, res) => {
 
     if (!limit) {
 
+        const alreadyGetAllRedis = await redis.get('get-property-type-redis');
+        if (alreadyGetAllRedis) {
+            return res.json({
+                statusCode: 200 ,
+                success: true,
+                message: 'Get propertype in redis success',
+                data: JSON.parse(alreadyGetAllRedis)
+            })
+        }
+
         const rs = await db.PropertyType.findAll({ where: query, options }); 
+
+        redis.set('get-property-type-redis', JSON.stringify(rs));
 
         return res.json({
             statusCode: rs?.length > 0 ? 200 : 400 ,

@@ -4,6 +4,9 @@ const joi = require('joi');
 const controller = require('../controllers/propertyType');
 const { stringRequired, string } = require('../middlewares/joiSchema');
 const { verifyToken, checkRoleAdmin, checkRoleAgent, checkRoleOwnerProperty } = require('../middlewares/verifyToken');
+const redisWithLimitSpam = require('../middlewares/redisWithLimitSpam')
+
+router.use(redisWithLimitSpam) // call redisWithLimitSpam
 
 router.post('/create-new', verifyToken, checkRoleAdmin, validateDTO(joi.object({
     name: string,

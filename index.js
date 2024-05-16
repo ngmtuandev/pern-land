@@ -3,8 +3,9 @@ require('dotenv').config();
 const app = express();
 const cors = require('cors');
 const db_connect = require('./config/connectDB');
-const initRoutes = require('./routes')
+const initRoutes = require('./routes');
 
+require('./config/redis.config'); // run redis
 
 app.use(cors({
     origin: process.env.CLIENT_URL_LAND,
