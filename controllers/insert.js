@@ -5,7 +5,7 @@ const { roles } = require('../utils/constance')
 
 exports.createRoleInsertFormat = asyncHandler( async (req, res) => {
 
-    const rs = await db.Role.bulkCreate(roles) // insert mutiple data
+    const rs = await db.Role.bulkCreate(roles) // insert mutiple data auto
 
     return res.json({
         success: Boolean(rs),

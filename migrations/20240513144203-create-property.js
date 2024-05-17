@@ -31,6 +31,14 @@ module.exports = {
           key: 'id'
         }
       },
+      owner: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
+      },
       status: {
         type: Sequelize.ENUM(['PENDING', 'CANCAL', 'APPROVED']),
         allowNull: false,

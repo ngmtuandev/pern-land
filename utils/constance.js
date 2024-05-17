@@ -1,19 +1,19 @@
 module.exports.roles = [
     {
         code: 'ROLE1',
-        value: 'Quản trị viên'
+        value: 'Admin'
     },
     {
         code: 'ROLE2',
-        value: 'Chủ sở hữu'
+        value: 'Owner'
     },
     {
         code: 'ROLE3',
-        value: 'Môi giới'
+        value: 'Agent'
     },
     {
         code: 'ROLE4',
-        value: 'Khách hàng'
+        value: 'Customer'
     },
 ]
 

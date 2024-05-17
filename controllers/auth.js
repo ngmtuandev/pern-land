@@ -6,19 +6,29 @@ const jwt_token = require('jsonwebtoken');
 
 exports.register = asyncHandler( async (req, res) => {
     
-    const {password, phone, name, role} = req.body;
+    const {password, phone, name} = req.body;
     
-    console.log('role code : ', role);
-
-    const checkUser = await db.User.findOrCreate({
+    const response = await db.User.findOrCreate({
         where: {phone: phone},
-        defaults: {password, phone, name, roleCode: role}
-    })
+        defaults: {password, phone, name}
+    });
+
+    const userId = response[0]?.id;
+    if (userId) {
+        const roleCodes = ['ROLE4'];
+        if (req.body?.role) roleCodes.push(req?.body?.role);
+        console.log('req.body?.role , ', req.body?.role);
+        const roleCodeBulk = roleCodes.map(role => ({userId, roleCode: role}));
+        console.log('roleCodeBulk : ', roleCodeBulk);
+        const updateRole = await db.User_Role.bulkCreate(roleCodeBulk);
+        console.log('updateRole : ', updateRole)
+        if (!updateRole) await db.User.destroy({ where: {id: userId} });
+    }
 
     return res.status(200).json({
-        statusCode: checkUser[1] ? 201 : 200,
-        success: checkUser[1],
-        message: checkUser[1] ? 'Your accout is created successfully' : 'Phone number already had exists'
+        statusCode: response[1] ? 201 : 200,
+        success: response[1],
+        message: response[1] ? 'Your accout is created successfully' : 'Phone number already had exists'
     })
 
 })
