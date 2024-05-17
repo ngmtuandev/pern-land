@@ -14,11 +14,11 @@ import { AdminLayout, CreatePropertyType, DashBoard, ManagePropertyType } from "
 function App() {
 
   const { isShowModel } : any = useModelStore();
-  const { getUserCurrent, current } : any = useUserStore();
+  const { getUserCurrent, current, getRoles } : any = useUserStore();
 
   useEffect(() => {
     getUserCurrent();
-    console.log('test user get current ->>>>', current);
+    getRoles();
   }, [])
 
   return (

@@ -6,7 +6,8 @@ import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
 import { MdManageSearch } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
-
+import { IoMdImages } from "react-icons/io";
+import { IoMdCloseCircle } from "react-icons/io";
 
 
 const icons = {
@@ -17,7 +18,9 @@ const icons = {
     FaChevronUp,
     FaChevronDown,
     MdManageSearch,
-    MdCreateNewFolder
+    MdCreateNewFolder,
+    IoMdImages,
+    IoMdCloseCircle
 }
 
 export default icons;

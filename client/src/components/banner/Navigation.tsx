@@ -10,7 +10,7 @@ import Login from '../author/Login'
 
 const Navigation = ({location}: any) => {
 
-  const { token } = useUserStore();
+  const { current } : any = useUserStore();
   const { setModel } : any = useModelStore();
 
   return (
@@ -32,7 +32,7 @@ const Navigation = ({location}: any) => {
         }
         {
         
-        token ? 
+        current ? 
         <Button styleCss={twMerge(clsx(location.pathname === '/' && 'bg-transparent border border-white'))}>
           Add Listing
         </Button>

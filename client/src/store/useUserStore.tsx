@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { apiGetUser } from "../apis/user";
+import { apiGetRole, apiGetUser } from "../apis/user";
 
 export const useUserStore = create(
   persist(
     (set, get) => ({
       token: null,
       current: null,
+      roles: null,
       handleSetToken: (token : string) => 
         set(() => (
             {
@@ -14,11 +15,21 @@ export const useUserStore = create(
             }
         )),
       getUserCurrent: async () => {
-        // console.log('call api')
           const rs = await apiGetUser() as { statusCode?: number, success?: boolean, message?: string, userCurrent?: TGetUserCurrent };
           if (rs?.success) {
             return set(() => ({current: rs?.userCurrent}))
           }
+          else {
+            localStorage.removeItem('land_user');
+            return set(() => ({current: null}))
+          }
+        },
+        getRoles: async () => {
+          const rs = await apiGetRole() as any;
+          if (rs?.success) {
+            return set(() => ({roles: rs?.data}))
+          }
+          return set(() => ({roles: null}))
         }
     }),
     {

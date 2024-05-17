@@ -11,6 +11,21 @@ import withRouter from "../../hocs/withRouter"
 import { useModelStore } from "../../store/useModelStore"
 import { useUserStore } from "../../store/useUserStore"
 
+interface IRole {
+  value: string;
+  code: string;
+}
+
+interface RegisterResponse {
+  success: boolean;
+}
+
+interface SignInResponse {
+  statusCode: number;
+  accessToken: string;
+}
+
+
 const Login = () => {
 
   const [varient, setVarient] = useState('LOGIN');
@@ -19,9 +34,7 @@ const Login = () => {
   const { register, formState: {errors}, handleSubmit, reset } = useForm();
 
   const {setModel} : any = useModelStore();
-  const {token, handleSetToken} : any = useUserStore();
-
-  console.log('check token : ', token);
+  const {handleSetToken, roles} : any = useUserStore();
 
   const handleLoading = (flag : boolean) => setIsLoading(flag);
 
@@ -32,8 +45,9 @@ const Login = () => {
   const handleOnSubmitSuccess = async (data: any) => {
     handleLoading(true);
     if (varient === 'REGISTER') {
-      const rs = await apiRegister(data);
+      const response = await apiRegister(data);
       handleLoading(false);
+      const rs: RegisterResponse = response.data;
       if (rs?.success) {
         Swal.fire({
           icon: "success",
@@ -56,10 +70,11 @@ const Login = () => {
     else {
       const {name, role, ...payload} = data;
       handleLoading(true);
-      const rs = await apiSignIn(payload);
+      const response = await apiSignIn(payload);
       handleLoading(false);
+      const rs: SignInResponse = response.data;
+
       if (rs?.statusCode! === 200) {
-        // console.log('access token ', rs?.accessToken);
         handleSetToken(rs?.accessToken);
         toast.success('Login success'); 
         setModel(false, null); 
@@ -107,10 +122,7 @@ const Login = () => {
           varient === 'REGISTER' && 
           <InputRadio label='Type Account' register={register} 
             id='role' validate={{required: 'Must be full'}}
-            options={[
-              {label: 'User', value: 'USER'},
-              {label: 'Agent', value: 'AGENT'}
-            ]}  
+            options={roles?.filter((el: IRole)=> el.value !== 'Admin')?.map((el: IRole) => ({label: el?.value, value: el?.code}))}  
           ></InputRadio>
         }
         <div className="mt-2">
