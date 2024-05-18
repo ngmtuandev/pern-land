@@ -10,14 +10,20 @@ import { toast } from "react-toastify"
 import withRouter from "../../hocs/withRouter"
 import { useModelStore } from "../../store/useModelStore"
 import { useUserStore } from "../../store/useUserStore"
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
+import auth from '../../utils/firebase.config'
+import VerifyOTP from "../verify/VerifyOTP"
 
 interface IRole {
   value: string;
   code: string;
 }
 
-interface RegisterResponse {
-  success: boolean;
+declare global {
+  interface Window {
+    recaptchaVerifier?: any;
+    confirmationResult?: any;
+  }
 }
 
 interface SignInResponse {
@@ -31,6 +37,8 @@ const Login = () => {
   const [varient, setVarient] = useState('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [hasSendedOTP, setHasSendedOTP] = useState(false);
+
   const { register, formState: {errors}, handleSubmit, reset } = useForm();
 
   const {setModel} : any = useModelStore();
@@ -42,28 +50,39 @@ const Login = () => {
     reset();
   }, [varient])
 
+  const handleConfirmCaptchaVerify = () => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
+    }
+    return window.recaptchaVerifier;
+  };
+
+  const handleSendOTP = (phoneNumber: string) => {
+    const formatPhoneNumber = '+84' + phoneNumber.slice(1);
+
+    setIsLoading(true);
+    const appVerifier = handleConfirmCaptchaVerify();
+
+    signInWithPhoneNumber(auth, formatPhoneNumber, appVerifier).then((confirmationResult) => {
+      setIsLoading(false);
+      setHasSendedOTP(true);
+      console.log('confirmationResult : ', confirmationResult);
+      window.confirmationResult = confirmationResult;
+      toast.success('Send OTP verify success');
+    }).catch((errors) => {
+      setIsLoading(false);
+      setHasSendedOTP(false);
+      toast.error('Send OTP verify failure');
+    })
+
+  }
+
+
   const handleOnSubmitSuccess = async (data: any) => {
     handleLoading(true);
     if (varient === 'REGISTER') {
-      const response = await apiRegister(data);
-      handleLoading(false);
-      const rs: RegisterResponse = response.data;
-      if (rs?.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Register account successfully",
-          showConfirmButton: true,
-          confirmButtonText: "Go to Login"
-        }).then(({ isConfirmed }) => {
-          if(isConfirmed) {
-            setVarient('LOGIN');
-          }
-        })
-        return;
-      }
-      else {
-        toast.error('Register failure');
-        return;
+      if (data && data?.role !== 'ROLE4') {
+        handleSendOTP(data?.phone);
       }
     }
 
@@ -86,10 +105,37 @@ const Login = () => {
 
   }
 
+  // const handleRegisterValidated = async (data: {phone: string, password: string, name: string}) => {
+  //   const response = await apiRegister(data);
+  //     handleLoading(false);
+  //     const rs: any = response.data;
+  //     if (rs?.success) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Register account successfully",
+  //         showConfirmButton: true,
+  //         confirmButtonText: "Go to Login"
+  //       }).then(({ isConfirmed }) => {
+  //         if(isConfirmed) {
+  //           setVarient('LOGIN');
+  //         }
+  //       })
+  //       return;
+  //     }
+  //     else {
+  //       toast.error('Register failure');
+  //       return;
+  //     }
+  // }
+
   return (
     <div 
     onClick={e => e.stopPropagation()}
-    className='bg-white rounded-md px-6 py-12 items-center w-[500px] flex flex-col gap-6'>
+    className='bg-white rounded-md px-6 py-12 relative items-center w-[500px] flex flex-col gap-6'>
+      {hasSendedOTP && <div className="absolute inset-0 flex justify-center items-center">
+        <VerifyOTP></VerifyOTP>  
+      </div>}
+      <div id="recaptcha-container"></div>
       <h1 className="text-3xl font-semibold tracking-tight font-agbalumo text-gray-700">Welcome to Land</h1>
       <div className="flex justify-start w-full border-b gap-6">
         <span 
@@ -126,7 +172,7 @@ const Login = () => {
           ></InputRadio>
         }
         <div className="mt-2">
-          <Button handleOnClick={handleSubmit(handleOnSubmitSuccess)} containerClassName='w-full'>{varient === 'LOGIN' ? 'Sign in' : 'Register'}</Button>
+          <Button isLoading={isLoading} handleOnClick={handleSubmit(handleOnSubmitSuccess)} containerClassName='w-full'>{varient === 'LOGIN' ? 'Sign in' : 'Register'}</Button>
         </div>
       </form>
     </div>
