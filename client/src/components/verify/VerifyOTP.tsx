@@ -3,20 +3,23 @@ import OtpInput from "react-otp-input";
 import Button from "../commons/Button";
 import { toast } from "react-toastify";
 
-const VerifyOTP = () => {
+const VerifyOTP = ({ handleSuccess }: any) => {
   const [otp, setOtp] = useState("");
-
+  
   const handleSubmitOtp = () => {
     if (window.confirmationResult) {
-      window.confirmationResult.confirm(otp).then((result: any) => {
-        if (result && result?.operationType === "signIn") {
-            // handleOnVerifySuccess()
-        }
-      }).catch((err: any) => {
-        if(err) {
-            toast.error('Confirm OTP your not match !!!');
-        }
-      })
+      window.confirmationResult
+        .confirm(otp)
+        .then((result: any) => {
+          if (result && result?.operationType === "signIn") {
+            handleSuccess();
+          }
+        })
+        .catch((err: any) => {
+          if (err) {
+            toast.error("Confirm OTP your not match !!!");
+          }
+        });
     }
   };
 
