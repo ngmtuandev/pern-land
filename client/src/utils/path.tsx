@@ -10,7 +10,14 @@ const path = {
     ADMIN_LAYOUT: 'admin',
     ADMIN_DASHBOARD: 'dashboard-analytics',
     ADMIN_MANAGE_PROPERTY_TYPE: 'manage-property-type',
-    ADMIN_CREATE_PROPERTY_TYPE: 'create-property-type'
+    ADMIN_CREATE_PROPERTY_TYPE: 'create-property-type',
+
+    // USER
+    USER_LAYOUT: 'user',
+    USER_PERSONAL: 'personal',
+
+    // AGENT
+    AGENT_LAYOUT: 'agent',
 
 }
 

@@ -75,7 +75,6 @@ const Login = () => {
       .then((confirmationResult) => {
         setIsLoading(false);
         setHasSendedOTP(true);
-        console.log("confirmationResult : ", confirmationResult);
         window.confirmationResult = confirmationResult;
         toast.success("Send OTP verify success");
       })
@@ -97,10 +96,9 @@ const Login = () => {
       handleLoading(true);
       const response = await apiSignIn(payload);
       handleLoading(false);
-      const rs: SignInResponse = response.data;
 
-      if (rs?.statusCode! === 200) {
-        handleSetToken(rs?.accessToken);
+      if (response?.statusCode! === 200) {
+        handleSetToken(response?.accessToken);
         toast.success("Login success");
         setModel(false, null);
       } else {
@@ -117,7 +115,7 @@ const Login = () => {
     const response = await apiRegister(data);
     handleLoading(false);
     const rs: any = response.data as { message: string };
-    if (rs?.success) {
+    if (response?.success) {
       Swal.fire({
         icon: "success",
         title: "Register account successfully",
@@ -125,6 +123,7 @@ const Login = () => {
         confirmButtonText: "Go to Login",
       }).then(({ isConfirmed }) => {
         if (isConfirmed) {
+          setHasSendedOTP(false);
           setVarient("LOGIN");
         }
       });
