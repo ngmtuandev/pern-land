@@ -14,7 +14,7 @@ const Navigation = ({location}: any) => {
   const { setModel } : any = useModelStore();
 
   return (
-    <div className={clsx('h-[85px] flex items-center justify-between fixed w-full top-[85px] z-50 px-[100px] py-[26px]', 
+    <div className={clsx('h-[85px] flex items-center justify-between fixed w-full top-[85px] z-10 px-[100px] py-[26px]', 
       location.pathname === '/' ? 'bg-transparent' : 'bg-white'
     )}>
       <Link to='/'>

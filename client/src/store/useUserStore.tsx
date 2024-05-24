@@ -8,36 +8,41 @@ export const useUserStore = create(
       token: null,
       current: null,
       roles: null,
-      handleSetToken: (token : string) => 
-        set(() => (
-            {
-                token
-            }
-        )),
+      handleSetToken: (token: string) =>
+        set(() => ({
+          token,
+        })),
       getUserCurrent: async () => {
-          const rs = await apiGetUser() as { statusCode?: number, success?: boolean, message?: string, userCurrent?: TGetUserCurrent };
-          if (rs?.success) {
-            return set(() => ({current: rs?.userCurrent}))
-          }
-          else {
-            localStorage.removeItem('land_user');
-            return set(() => ({current: null}))
-          }
-        },
-        getRoles: async () => {
-          const rs = await apiGetRole() as any;
-          if (rs?.success) {
-            return set(() => ({roles: rs?.data}))
-          }
-          return set(() => ({roles: null}))
+        const rs = (await apiGetUser()) as {
+          statusCode?: number;
+          success?: boolean;
+          message?: string;
+          userCurrent?: TGetUserCurrent;
+        };
+        if (rs?.success) {
+          return set(() => ({ current: rs?.userCurrent }));
+        } else {
+          localStorage.removeItem("land_user");
+          return set(() => ({ current: null }));
         }
+      },
+      getRoles: async () => {
+        const rs = (await apiGetRole()) as any;
+        if (rs?.success) {
+          return set(() => ({ roles: rs?.data }));
+        }
+        return set(() => ({ roles: null }));
+      },
+      logout: () => {
+        return set(() => ({ token: null, current: null }));
+      },
     }),
     {
       name: "land_user",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
         if (typeof state !== "object" || state === null) {
-          return {}; 
+          return {};
         }
 
         return Object.fromEntries(

@@ -70,13 +70,13 @@ export const menuConstant = [
     id: 2,
     name: "Agent",
     code: "ROLE3",
-    path: `/${path.USER_LAYOUT}/${path.USER_PERSONAL}`,
+    path: `/${path.AGENT_LAYOUT}/${path.AGENT_DASHBOARD}`,
   },
   {
     id: 3,
     name: "Owner",
     code: "ROLE2",
-    path: `/${path.USER_LAYOUT}/${path.USER_PERSONAL}`,
+    path: `/${path.OWNER_LAYOUT}/${path.OWNER_DASHBOARD}`,
   },
   {
     id: 4,
