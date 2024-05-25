@@ -8,7 +8,9 @@ const redisWithLimitSpam = require('../middlewares/redisWithLimitSpam')
 
 router.use(redisWithLimitSpam) // call redisWithLimitSpam
 
-router.post('/create-new', verifyToken, checkRoleAdmin, validateDTO(joi.object({
+router.post('/create-new', verifyToken, 
+// checkRoleAdmin, 
+validateDTO(joi.object({
     name: string,
     image:stringRequired,
     description: stringRequired

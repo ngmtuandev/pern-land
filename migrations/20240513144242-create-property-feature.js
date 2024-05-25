@@ -1,44 +1,44 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('PropertyFeatures', {
+    await queryInterface.createTable("PropertyFeatures", {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.literal("gen_random_uuid()")
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
       },
       propertyId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Properties',
-          key: 'id'
-        }
+          model: "Properties",
+          key: "id",
+        },
       },
       featureId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Features',
-          key: 'id'
-        }
+          model: "Features",
+          key: "id",
+        },
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('PropertyFeatures');
-  }
+    await queryInterface.dropTable("PropertyFeatures");
+  },
 };

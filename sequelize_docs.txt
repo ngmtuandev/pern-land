@@ -1,2 +1,11 @@
 // create model
 npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+// create seeder
+npx sequelize-cli seed:generate --name demo-user
+
+// up
+npx sequelize db:seed --seed name_seeder
+
+// run all
+npm init -> migate && seeder
