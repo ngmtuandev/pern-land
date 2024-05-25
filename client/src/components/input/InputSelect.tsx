@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-import { InputForm } from "..";
 
 type TForm = {
   style?: any;
@@ -13,7 +12,7 @@ type TForm = {
   inputClassName?: any;
   validate?: any;
   placeholder?: string;
-  option?: any
+  option?: any;
 };
 
 const InputSelect = ({
@@ -27,7 +26,7 @@ const InputSelect = ({
   inputClassName,
   validate,
   placeholder,
-  option = []
+  option = [],
 }: TForm) => {
   return (
     <div
@@ -47,11 +46,11 @@ const InputSelect = ({
         {...register(id, validate)}
         placeholder={placeholder}
       >
-        {
-            option.map(el => (
-                <option key={el.code} value={el.code}>{el?.label}</option>
-            ))
-        }
+        {option.map((el: { code: number | string; label: string }) => (
+          <option key={el.code} value={el.code}>
+            {el?.label}
+          </option>
+        ))}
       </select>
       {errors && errors[id] && (
         <small className="text-red-600 font-semibold">

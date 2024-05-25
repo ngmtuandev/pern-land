@@ -11,3 +11,15 @@ html {
 html, body {
   height: 100%;
 }
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+}
+.breadcrumb li {
+  margin-right: 0.5rem;
+}
+.breadcrumb li + li:before {
+  content: '/';
+  margin-right: 0.5rem;
+}
