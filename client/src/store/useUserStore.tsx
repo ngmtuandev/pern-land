@@ -4,7 +4,7 @@ import { apiGetRole, apiGetUser } from "../apis/user";
 
 export const useUserStore = create(
   persist(
-    (set, get) => ({
+    (set, _) => ({
       token: null,
       current: null,
       roles: null,
