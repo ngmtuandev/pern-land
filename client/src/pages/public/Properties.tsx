@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import thumb from "../../assets/thumb.png";
-import { BreadCrumb, Card } from "../../components";
+import { BreadCrumb, Button, Card, InputSelect } from "../../components";
 import { apiGetProperty } from "../../apis/property";
+import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 const Properties = () => {
   const [property, setProperty] = useState([]);
+  const [filterSelect, setFilterSelect] = useState("all");
+  const {
+    register,
+    formState: { errors },
+  } = useForm();
   useEffect(() => {
     (async () => {
       const response = await apiGetProperty({
@@ -28,7 +36,62 @@ const Properties = () => {
         </div>
       </div>
       <div className="w-main my-20">
-        <div>sort by</div>
+        <div className="flex justify-between items-center mb-4">
+          <div className="w-[8%] flex items-center gap-2">
+            <span>Sort: </span>
+            <div>
+              <InputSelect
+                register={register}
+                id="sort"
+                errors={errors}
+                option={[
+                  { label: "Lastest", value: "-createdAt" },
+                  { label: "Oldest", value: "createdAt" },
+                  { label: "A - Z", value: "name" },
+                  { label: "Z - A", value: "-name" },
+                ]}
+              ></InputSelect>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div onClick={() => setFilterSelect("all")}>
+              <Button
+                containerClassName={twMerge(
+                  clsx(
+                    "bg-transparent border text-gray-900",
+                    filterSelect === "all" && "bg-yellow-bold-main text-white"
+                  )
+                )}
+              >
+                All Property
+              </Button>
+            </div>
+            <div onClick={() => setFilterSelect("rent")}>
+              <Button
+                containerClassName={twMerge(
+                  clsx(
+                    "bg-transparent border text-gray-900",
+                    filterSelect === "rent" && "bg-yellow-bold-main text-white"
+                  )
+                )}
+              >
+                For rent
+              </Button>
+            </div>
+            <div onClick={() => setFilterSelect("sell")}>
+              <Button
+                containerClassName={twMerge(
+                  clsx(
+                    "bg-transparent border text-gray-900",
+                    filterSelect === "sell" && "bg-yellow-bold-main text-white"
+                  )
+                )}
+              >
+                For sell
+              </Button>
+            </div>
+          </div>
+        </div>
         <div className="w-full grid grid-cols-3 gap-4">
           {property &&
             property?.map((item, index) => {

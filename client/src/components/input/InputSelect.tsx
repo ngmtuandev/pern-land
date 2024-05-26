@@ -42,7 +42,7 @@ const InputSelect = ({
       <select
         type={type}
         id={id}
-        className={twMerge(clsx(style, "placeholder:text-sm", inputClassName))}
+        className={twMerge(clsx(style, "placeholder:text-sm rounded-md", inputClassName))}
         {...register(id, validate)}
         placeholder={placeholder}
       >

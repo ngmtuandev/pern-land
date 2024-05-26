@@ -8,19 +8,26 @@ import { MdManageSearch } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
-
+import { FaBath } from "react-icons/fa";
+import { FaBed } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { IoMdContacts } from "react-icons/io";
 
 const icons = {
-    IoMailUnread,
-    FaSpinner,
-    MdDashboard,
-    BsFillHouseGearFill,
-    FaChevronUp,
-    FaChevronDown,
-    MdManageSearch,
-    MdCreateNewFolder,
-    IoMdImages,
-    IoMdCloseCircle
-}
+  IoMailUnread,
+  FaSpinner,
+  MdDashboard,
+  BsFillHouseGearFill,
+  FaChevronUp,
+  FaChevronDown,
+  MdManageSearch,
+  MdCreateNewFolder,
+  IoMdImages,
+  IoMdCloseCircle,
+  FaBath,
+  FaBed,
+  FaUser,
+  IoMdContacts,
+};
 
 export default icons;
