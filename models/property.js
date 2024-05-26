@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Property extends Model {
     /**
@@ -11,43 +9,55 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Property.belongsTo(models.User, {
+        foreignKey: "postedBy",
+        as: "refUser",
+      });
+      Property.belongsTo(models.User, {
+        foreignKey: "owner",
+        as: "refOwner",
+      });
     }
   }
-  Property.init({
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    listingType: {
-      type: DataTypes.ENUM,
-      values: ['SALE', 'RENTAL']
-    },
-    price: DataTypes.FLOAT,
-    propertyTypeId: DataTypes.INTEGER,
-    status: {
-      type: DataTypes.ENUM,
-      values: ['PENDING', 'CANCAL', 'APPROVED']
-    },
-    isAvailable: DataTypes.BOOLEAN,
-    images: {
-      type: DataTypes.TEXT,
-      get() {
-        const rawValue = this.getDataValue('images');
-        return rawValue ? JSON.parse(rawValue) : []
+  Property.init(
+    {
+      name: DataTypes.STRING,
+      description: DataTypes.TEXT,
+      address: DataTypes.STRING,
+      listingType: {
+        type: DataTypes.ENUM,
+        values: ["SALE", "RENTAL"],
       },
-      set(arrayImages) {
-        this.setDataValue('images', JSON.stringify(arrayImages))
-      }
+      price: DataTypes.FLOAT,
+      propertyTypeId: DataTypes.INTEGER,
+      status: {
+        type: DataTypes.ENUM,
+        values: ["PENDING", "CANCAL", "APPROVED"],
+      },
+      isAvailable: DataTypes.BOOLEAN,
+      images: {
+        type: DataTypes.TEXT,
+        get() {
+          const rawValue = this.getDataValue("images");
+          return rawValue ? JSON.parse(rawValue) : [];
+        },
+        set(arrayImages) {
+          this.setDataValue("images", JSON.stringify(arrayImages));
+        },
+      },
+      postedBy: DataTypes.INTEGER,
+      featuredImage: DataTypes.STRING,
+      isAvailable: DataTypes.BOOLEAN,
+      bedRoom: DataTypes.INTEGER,
+      bathRoom: DataTypes.INTEGER,
+      size: DataTypes.FLOAT,
+      yearBuilt: DataTypes.INTEGER,
+      owner: DataTypes.INTEGER,
     },
-    postedBy: DataTypes.INTEGER,
-    featuredImage: DataTypes.STRING,
-    isAvailable: DataTypes.BOOLEAN,
-    bedRoom: DataTypes.INTEGER,
-    bathRoom: DataTypes.INTEGER,
-    size: DataTypes.FLOAT,
-    yearBuilt: DataTypes.INTEGER,
-    owner: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Property',
-  });
+    {
+      sequelize,
+      modelName: "Property",
+    }
+  );
   return Property;
 };
