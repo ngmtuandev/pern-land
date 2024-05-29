@@ -5,6 +5,7 @@ import { apiGetProperty } from "../../apis/property";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { Pagination } from "../../components/pagiantion";
 const Properties = () => {
   const [property, setProperty] = useState([]);
   const [filterSelect, setFilterSelect] = useState("all");
@@ -97,6 +98,9 @@ const Properties = () => {
             property?.map((item, index) => {
               return <Card key={index} item={item}></Card>;
             })}
+        </div>
+        <div className="flex items-center justify-center my-4">
+          <Pagination />
         </div>
       </div>
     </div>
