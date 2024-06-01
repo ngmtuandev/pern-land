@@ -8,7 +8,7 @@ const Pagination = () => {
     sibling: 0,
   });
   console.log("🚀 ~ Pagination ~ pagination:", pagination);
-  return <div>Pagination</div>;
+  return <div className="flex justify-center items-center">Pagination</div>;
 };
 
 export default Pagination;
