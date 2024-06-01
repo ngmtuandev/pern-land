@@ -55,7 +55,7 @@ exports.getProperties = asyncHandler(async (req, res) => {
   // Pagination
   const prevPage = page - 1 > 0 ? page : 1;
 
-  const offset = (prevPage - 1) * limit + 1; // start of page
+  const offset = page && +page > 1 ? +page - 1 : 0; // start of page
 
   if (offset) options.offset = offset;
   options.limit = +limit;
@@ -81,6 +81,6 @@ exports.getProperties = asyncHandler(async (req, res) => {
     statusCode: response?.length > 0 ? 200 : 400,
     success: response?.length > 0 ? true : false,
     message: response?.length > 0 ? "Get property success" : "Get failure",
-    data: response && response,
+    data: response && { ...response, limit: +limit, page: +page ? +page : 1 },
   });
 });

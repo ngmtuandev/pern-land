@@ -12,7 +12,7 @@ const redisLimitSpam = async (req, res, next) => {
 
 
     // call yet
-    if (+Object.keys(client)?.length === 0) { 
+    if (+Object?.keys(client)?.length === 0) { 
         await redis.hSet(`redisLimitSpam-${clientId}`, 'createAt', currentTime);
         await redis.hSet(`redisLimitSpam-${clientId}`, 'countSpam', 1);
         return next();
