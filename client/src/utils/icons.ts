@@ -12,8 +12,12 @@ import { FaBath } from "react-icons/fa";
 import { FaBed } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { IoMdContacts } from "react-icons/io";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 const icons = {
+  FaArrowRight,
+  FaArrowLeft,
   IoMailUnread,
   FaSpinner,
   MdDashboard,

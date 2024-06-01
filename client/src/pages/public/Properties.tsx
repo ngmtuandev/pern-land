@@ -6,25 +6,29 @@ import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { Pagination } from "../../components/pagiantion";
+import { useSearchParams } from "react-router-dom";
 const Properties = () => {
-  const [property, setProperty] = useState([]);
+  const [property, setProperty] = useState<any>([]);
   const [filterSelect, setFilterSelect] = useState("all");
+  const [searchParams] = useSearchParams();
   const {
     register,
     formState: { errors },
   } = useForm();
   useEffect(() => {
+    const params = Object.fromEntries([...searchParams]);
     (async () => {
+      console.log("🚀 ~ useEffect ~ params:", params)
       const response = await apiGetProperty({
         limit: import.meta.env.VITE_LIMIT,
+        ...params,
       });
-      console.log("first : ", response?.data?.rows?.length);
       if (response?.data?.rows?.length > 0) {
-        setProperty(response?.data?.rows);
+        setProperty(response?.data);
       }
     })();
-  }, []);
-  console.log("property api : ", property);
+  }, [searchParams]);
+
   return (
     <div className="w-full flex justify-center flex-col items-center">
       <div className="relative w-full">
@@ -94,13 +98,17 @@ const Properties = () => {
           </div>
         </div>
         <div className="w-full grid grid-cols-3 gap-4">
-          {property &&
-            property?.map((item, index) => {
+          {property?.rows &&
+            property?.rows?.map((item: TProperty, index: number | string) => {
               return <Card key={index} item={item}></Card>;
             })}
         </div>
         <div className="flex items-center justify-center my-4">
-          <Pagination />
+          <Pagination
+            total={property?.count}
+            page={property?.page}
+            limit={property?.limit}
+          />
         </div>
       </div>
     </div>
