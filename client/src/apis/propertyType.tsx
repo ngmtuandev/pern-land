@@ -5,3 +5,9 @@ export const apiCreateNewPropertyType = (data: any) => instanceAxios({
     method: 'POST',
     data,
 })
+
+export const apiGetPropertyType = (params: any) => instanceAxios({
+    url: '/property-type/get-propertypes',
+    method: 'get',
+    params
+})

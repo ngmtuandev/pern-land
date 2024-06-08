@@ -3,12 +3,21 @@ import Button from "../commons/Button";
 import SearchItem from "./SearchItem";
 import InputForm from "../input/InputForm";
 import InputSelect from "../input/InputSelect";
+import { usePropertiesTypeStore } from "../../store/usePropertiesTypeStore";
+import { useEffect } from "react";
 
 const Search = () => {
   const {
     register,
     formState: { errors },
   } = useForm();
+
+  const { getPropertiesType, propertiesType }: any = usePropertiesTypeStore();
+
+  useEffect(() => {
+    getPropertiesType({ fields: "name,id" });
+  }, []);
+
   return (
     <div
       className="bg-white shadow-lg py-8 grid grid-cols-4 rounded-sm mx-auto 

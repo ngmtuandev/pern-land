@@ -7,6 +7,6 @@ export const apiGetUser = () => instanceAxios({
 
 
 export const apiGetRole = () => instanceAxios({
-    url: '/user//roles',
+    url: '/user/roles',
     method: 'GET'
 })
