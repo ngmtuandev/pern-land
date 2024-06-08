@@ -10,7 +10,7 @@
     "migrate:database_up": "npx sequelize-cli db:migrate",
     "migrate:database_undo": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize db:seed:all",
-    "init": "npm run migrate:database_up && sleep 1 && npm run seed" 
+    "init": "npm run migrate:database_up && sleep 1 && npm run seed"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "express-async-handler": "^1.2.0",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
+    "os": "^0.1.2",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
     "redis": "^4.6.13",

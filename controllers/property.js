@@ -1,10 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const db = require("../models");
 const redis = require("../config/redis.config");
+const { Sequelize } = require("sequelize");
+const { generateIpKeyRedis } = require("../helper/XFunction");
 
 exports.getProperties = asyncHandler(async (req, res) => {
-  const { limit, page, fields, type, name, sort, ...query } = req.query;
-  const options = {};
+  const { limit, page, fields, address, type, name, sort, ...query } =
+    req.query;
+  const options = {}; // all fields wants select
 
   // Sorting
   // sequelize : order = [[createAt, ASC], [name, DESC]]
@@ -28,10 +31,21 @@ exports.getProperties = asyncHandler(async (req, res) => {
         exclude: attributes.map((el) => el.replace("-", "")), // squelize : attributes: {exclude: ['id']}
       };
     } else options.attributes = attributes;
+    console.log("test option attribute : ", options.attributes);
+  }
+
+  // filter for address
+  if (address) {
+    query.address = Sequelize.where(
+      Sequelize.fn("LOWER", Sequelize.col("address")),
+      "LIKE",
+      `%${address.toLocaleLowerCase()}%`
+    );
   }
 
   if (!limit) {
-    const alreadyGetAllRedis = await redis.get("get-property-redis");
+    const keyPropertyRedis = generateIpKeyRedis(fields);
+    const alreadyGetAllRedis = await redis.get(keyPropertyRedis);
     if (alreadyGetAllRedis) {
       return res.json({
         statusCode: 200,
@@ -41,8 +55,9 @@ exports.getProperties = asyncHandler(async (req, res) => {
       });
     }
 
-    const rs = await db.Property.findAll({ where: query, options });
-    redis.set("get-property-redis", JSON.stringify(rs));
+    const rs = await db.Property.findAll({ where: query, ...options });
+    redis.set(keyPropertyRedis, JSON.stringify(rs));
+    redis.expireAt(keyPropertyRedis, parseInt(+new Date() / 1000) + 2000);
 
     return res.json({
       statusCode: rs?.length > 0 ? 200 : 400,
