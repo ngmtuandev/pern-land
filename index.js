@@ -21,7 +21,7 @@ app.use('/', (req, res) => {
     res.send('Server on ...');
 })
 
-const PORT = process.env.PORT_LAND || 3000;
+let PORT = process.env.PORT_LAND || 8080;
 
 app.listen(PORT, () => {
     console.log(`Server on ready on port ${PORT}`)
