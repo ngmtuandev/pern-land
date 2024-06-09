@@ -14,11 +14,23 @@ const Properties = () => {
   const {
     register,
     formState: { errors },
+    watch,
   } = useForm();
+
+  const sort = watch("sort");
+
   useEffect(() => {
-    const params = Object.fromEntries([...searchParams]);
+    // [...searchParams] -> [['address', 'value'], ['propertyType', 'value']]
+    const params: any = Object.fromEntries([...searchParams]);
+    // params : {address: value, propertyType: value}
+
     (async () => {
-      console.log("🚀 ~ useEffect ~ params:", params)
+      if (sort) params.sort = sort;
+
+      if (searchParams?.getAll("price")) {
+        params.price = searchParams?.getAll("price");
+      }
+
       const response = await apiGetProperty({
         limit: import.meta.env.VITE_LIMIT,
         ...params,
@@ -27,7 +39,7 @@ const Properties = () => {
         setProperty(response?.data);
       }
     })();
-  }, [searchParams]);
+  }, [searchParams, sort]);
 
   return (
     <div className="w-full flex justify-center flex-col items-center">
@@ -50,10 +62,10 @@ const Properties = () => {
                 id="sort"
                 errors={errors}
                 option={[
-                  { label: "Lastest", value: "-createdAt" },
-                  { label: "Oldest", value: "createdAt" },
-                  { label: "A - Z", value: "name" },
-                  { label: "Z - A", value: "-name" },
+                  { label: "Lastest", code: "-createdAt" },
+                  { label: "Oldest", code: "createdAt" },
+                  { label: "A - Z", code: "name" },
+                  { label: "Z - A", code: "-name" },
                 ]}
               ></InputSelect>
             </div>

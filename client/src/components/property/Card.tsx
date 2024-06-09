@@ -1,6 +1,6 @@
 import { formatMoney } from "../../helper/formatMoney";
 import icons from "../../utils/icons";
-const Card = ({ item }) => {
+const Card = ({ item }: any) => {
   const { FaBath, FaBed, FaUser, IoMdContacts } = icons;
   return (
     <div className="border rounded-md p-4">

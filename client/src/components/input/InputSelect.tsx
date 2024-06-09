@@ -1,20 +1,6 @@
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
-type TForm = {
-  style?: any;
-  containerClassName?: any;
-  label?: string;
-  id: string;
-  type?: string;
-  register: any;
-  errors?: any;
-  inputClassName?: any;
-  validate?: any;
-  placeholder?: string;
-  option?: any;
-};
-
 const InputSelect = ({
   style = "form-select",
   containerClassName,
@@ -42,7 +28,9 @@ const InputSelect = ({
       <select
         type={type}
         id={id}
-        className={twMerge(clsx(style, "placeholder:text-sm rounded-md", inputClassName))}
+        className={twMerge(
+          clsx(style, "placeholder:text-sm rounded-md", inputClassName)
+        )}
         {...register(id, validate)}
         placeholder={placeholder}
       >

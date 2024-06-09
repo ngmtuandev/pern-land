@@ -24,12 +24,12 @@ import { Personal, UserLayout } from "./pages/user";
 
 function App() {
   const { isShowModel }: any = useModelStore();
-  const { getUserCurrent, current, getRoles }: any = useUserStore();
+  const { getUserCurrent, getRoles, token }: any = useUserStore();
 
   useEffect(() => {
     getUserCurrent();
     getRoles();
-  }, []);
+  }, [token]);
 
   return (
     <div>
