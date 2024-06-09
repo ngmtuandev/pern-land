@@ -1,12 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const db = require("../models");
 const redis = require("../config/redis.config");
-const { Sequelize } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const { generateIpKeyRedis } = require("../helper/XFunction");
 
 exports.getProperties = asyncHandler(async (req, res) => {
-  const { limit, page, fields, address, type, name, sort, ...query } =
-    req.query;
+  const { limit, page, fields, address, type, name, sort, price, ...query } =
+  req.query;
   const options = {}; // all fields wants select
 
   // Sorting
@@ -34,10 +34,24 @@ exports.getProperties = asyncHandler(async (req, res) => {
     console.log("test option attribute : ", options.attributes);
   }
 
+  // query for price in 3 case : min-max, gte, lte  => price : [..., ...]
+  if (price) {
+    const filterAllMinMaxPrice = price?.every((item) => !isNaN(item)); // have range price min - max
+    // Op : gt, gte, lt, lte, in, like, and, or, between
+    if (filterAllMinMaxPrice)
+      query.price = { [Op.between]: price }; // beetwen : max - min
+    else {
+      // [Op.gte]: 18, // Lớn hơn hoặc bằng 18
+      const rangeNumber = price?.find((item) => !isNaN(item));
+      const rangeOparateGteOrLte = price?.find((item) => isNaN(item));
+      query.price = { [Op[[rangeOparateGteOrLte]]]: rangeNumber };
+    }
+  }
+
   // filter for address
   if (address) {
     query.address = Sequelize.where(
-      Sequelize.fn("LOWER", Sequelize.col("address")),
+      Sequelize.fn("LOWER", Sequelize.col("Property.address")), // select col address of table Property
       "LIKE",
       `%${address.toLocaleLowerCase()}%`
     );
@@ -55,15 +69,18 @@ exports.getProperties = asyncHandler(async (req, res) => {
       });
     }
 
-    const rs = await db.Property.findAll({ where: query, ...options });
-    redis.set(keyPropertyRedis, JSON.stringify(rs));
-    redis.expireAt(keyPropertyRedis, parseInt(+new Date() / 1000) + 2000);
+    const response = await db.Property.findAll({ where: query, ...options });
+    redis.set(keyPropertyRedis, JSON.stringify(response));
+    redis.expireAt(
+      keyPropertyRedis,
+      paresponseeInt(+new Date() / 1000) + 2000
+    );
 
     return res.json({
-      statusCode: rs?.length > 0 ? 200 : 400,
-      success: rs?.length > 0 ? true : false,
-      message: rs?.length > 0 ? "Get property success" : "Get failure",
-      data: rs && rs,
+      statusCode: response?.length > 0 ? 200 : 400,
+      success: response?.length > 0 ? true : false,
+      message: response?.length > 0 ? "Get property success" : "Get failure",
+      data: response && response,
     });
   }
 

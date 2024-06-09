@@ -22,7 +22,6 @@ exports.createNewPropertyType = asyncHandler(async (req, res) => {
 
 exports.getPropertyTypes = asyncHandler(async (req, res) => {
   const { limit, page, fields, type, name, sort, ...query } = req.query;
-
   const options = {};
 
   // Sorting
@@ -71,7 +70,7 @@ exports.getPropertyTypes = asyncHandler(async (req, res) => {
       });
     }
 
-    const rs = await db.PropertyType.findAll({ where: query, options });
+    const rs = await db.PropertyType.findAll({ where: query, ...options });
 
     redis.set(keyPropertyRedis, JSON.stringify(rs));
     redis.expireAt(keyPropertyRedis, parseInt(+new Date() / 1000) + 2000);
@@ -96,6 +95,8 @@ exports.getPropertyTypes = asyncHandler(async (req, res) => {
     where: query,
     ...options,
   });
+
+  console.log("check option : ", options);
 
   return res.json({
     statusCode: response?.length > 0 ? 200 : 400,
