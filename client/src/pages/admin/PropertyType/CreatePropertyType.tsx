@@ -17,7 +17,7 @@ const CreatePropertyType = () => {
     console.log('data : ->>>', data);
 
     const {image, ...payload} = data;
-    const response = await apiCreateNewPropertyType({...payload, image: image[0]});
+    const response: any = await apiCreateNewPropertyType({...payload, image: image[0]});
 
     if(response?.success) {
       toast.success('Create property type success'); 

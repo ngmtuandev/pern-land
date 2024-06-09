@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import OtpInput from "react-otp-input";
 import Button from "../commons/Button";
 import { toast } from "react-toastify";

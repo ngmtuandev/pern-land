@@ -1,34 +1,38 @@
 import axios from "axios";
 
 const instanceAxios = axios.create({
-    baseURL: import.meta.env.VITE_URL_SERVER,
+  baseURL: import.meta.env.VITE_URL_SERVER,
 });
 
-// Add a request interceptor
-instanceAxios.interceptors.request.use(function (config) {
+interface TokenState {
+  state: {
+    token: string;
+  };
+}
 
-    let token = window.localStorage.getItem('land_user');
-    if (token) token = JSON.parse(token);
-    if (token?.state?.token) config.headers = {
-        Authorization: `Bearer ${token?.state?.token}`
+instanceAxios.interceptors.request.use(
+  function (config) {
+    let token = window.localStorage.getItem("land_user");
+    if (token) {
+      const parsedToken: TokenState = JSON.parse(token);
+      if (parsedToken?.state?.token) {
+        config.headers.Authorization = `Bearer ${parsedToken.state.token}`;
       }
-    
-
+    }
     return config;
-  }, function (error) {
-    // Do something with request error
+  },
+  function (error) {
     return Promise.reject(error);
-  });
+  }
+);
 
-// Add a response interceptor
-instanceAxios.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
+instanceAxios.interceptors.response.use(
+  function (response) {
     return response?.data;
-  }, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+  },
+  function (error) {
     return Promise.reject(error);
-  });
+  }
+);
 
 export default instanceAxios;
