@@ -26,11 +26,6 @@ declare global {
   }
 }
 
-interface SignInResponse {
-  statusCode: number;
-  accessToken: string;
-}
-
 const Login = () => {
   const [varient, setVarient] = useState("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
@@ -94,7 +89,7 @@ const Login = () => {
     } else {
       const { name, role, ...payload } = data;
       handleLoading(true);
-      const response = await apiSignIn(payload);
+      const response: any = await apiSignIn(payload);
       handleLoading(false);
 
       if (response?.statusCode! === 200) {
@@ -112,7 +107,7 @@ const Login = () => {
     password: string;
     name: string;
   }) => {
-    const response = await apiRegister(data);
+    const response: any = await apiRegister(data);
     handleLoading(false);
     const rs: any = response.data as { message: string };
     if (response?.success) {

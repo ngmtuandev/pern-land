@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { twMerge } from "tailwind-merge"
 import icons from "../../utils/icons"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { apiUploadImageToCloudinary } from "../../apis/uploadFileApiCloudinary"
 
@@ -24,7 +24,7 @@ type TImage = {
 }
 
 
-const InputFileUpload = ({containerClassName, label, id, inputClassName, validate, allowMutiple, getImages} 
+const InputFileUpload = ({containerClassName, label, id, validate, allowMutiple, getImages} 
 : TInputFile) => {
 
   const [images, setImages] = useState<TImage[]>([]);
