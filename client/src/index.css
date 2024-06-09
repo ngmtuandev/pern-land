@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-size: 16px;
+}
+
+html, body {
+  height: 100%;
+}
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+}
+.breadcrumb li {
+  margin-right: 0.5rem;
+}
+.breadcrumb li + li:before {
+  content: '/';
+  margin-right: 0.5rem;
+}
