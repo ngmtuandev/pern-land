@@ -1,8 +1,6 @@
-
 const Personal = () => {
-  return (
-    <div>Personal</div>
-  )
-}
+  
+  return <div>Personal</div>;
+};
 
-export default Personal
+export default Personal;
