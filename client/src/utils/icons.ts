@@ -14,8 +14,12 @@ import { FaUser } from "react-icons/fa";
 import { IoMdContacts } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+
 
 const icons = {
+  FaBars,
   FaArrowRight,
   FaArrowLeft,
   IoMailUnread,
@@ -32,6 +36,7 @@ const icons = {
   FaBed,
   FaUser,
   IoMdContacts,
+  IoMdClose
 };
 
 export default icons;

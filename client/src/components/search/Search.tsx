@@ -56,7 +56,7 @@ const Search = ({ navigate }: any) => {
 
   return (
     <form
-      className="bg-white shadow-lg py-8 grid grid-cols-4 rounded-sm mx-auto 
+      className="bg-white shadow-lg py-8 hidden lg:grid grid-cols-4 rounded-sm mx-auto 
   h-[8em] -mt-[4em] z-50 relative border"
     >
       <SearchItem title="location">

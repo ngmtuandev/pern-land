@@ -50,7 +50,7 @@ const TopHeader = ({ location }: any) => {
       className={twMerge(
         clsx(
           `px-[100px] text-white border-b border-white py-[26px] h-[85px] 
-    bg-transparent flex items-center justify-between fixed z-50 w-full top-0`,
+    bg-transparent hidden sm:hidden lg:flex items-center justify-between fixed z-50 w-full top-0`,
           !(location.pathname === "/") && "bg-yellow-bold-main"
         )
       )}

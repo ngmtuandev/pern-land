@@ -10,7 +10,7 @@ const InputSelectLibCustom = ({
   errors,
   validate,
   placeholder,
-  options = [],
+  options = [],  
   onChange,
 }: TForm & { onChange: void | any }) => {
   return (

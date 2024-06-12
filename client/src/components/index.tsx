@@ -14,3 +14,4 @@ export { default as Search } from "./search/Search";
 export { default as BreadCrumb } from "./commons/BreadCrumb";
 export { default as InputSelect } from "./input/InputSelect";
 export { default as Card } from "./property/Card";
+export { default as Menu } from "./menu-mobile/Menu";
