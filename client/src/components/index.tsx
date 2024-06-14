@@ -15,3 +15,4 @@ export { default as BreadCrumb } from "./commons/BreadCrumb";
 export { default as InputSelect } from "./input/InputSelect";
 export { default as Card } from "./property/Card";
 export { default as Menu } from "./menu-mobile/Menu";
+export { default as UserSidebar } from "./sidebars/UserSidebar";

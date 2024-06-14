@@ -4,10 +4,12 @@ import ERole from "../../utils/role";
 import Swal from "sweetalert2";
 import { useModelStore } from "../../store/useModelStore";
 import Login from "../../components/author/Login";
+import { Outlet } from "react-router-dom";
+import { UserSidebar } from "../../components";
 
 const UserLayout = () => {
   const { current }: any = useUserStore();
-  const { setModel } : any = useModelStore();
+  const { setModel }: any = useModelStore();
 
   useEffect(() => {
     if (
@@ -22,8 +24,8 @@ const UserLayout = () => {
         showConfirmButton: true,
         confirmButtonText: "Go to Login",
       }).then(() => {
-        setModel(true, <Login/>)
-      })
+        setModel(true, <Login />);
+      });
     }
   }, [current]);
 
@@ -32,7 +34,16 @@ const UserLayout = () => {
       {current &&
         current?.rolesUser?.some(
           (item: any) => item?.roleCode === ERole.CUSTOMER
-        ) && <div>UserLayout</div>}
+        ) && (
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-2 bg-yellow-bold-main text-white w-full h-screen max-h-screen overflow-y-auto">
+              <UserSidebar></UserSidebar>
+            </div>
+            <div className="col-span-10 max-h-screen overflow-y-auto">
+              <Outlet></Outlet>
+            </div>
+          </div>
+        )}
     </>
   );
 };

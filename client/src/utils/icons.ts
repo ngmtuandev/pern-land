@@ -17,9 +17,12 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { FaPen } from "react-icons/fa";
 
 
 const icons = {
+  FaPen,
   FaSearch,
   FaBars,
   FaArrowRight,
@@ -38,7 +41,8 @@ const icons = {
   FaBed,
   FaUser,
   IoMdContacts,
-  IoMdClose
+  IoMdClose,
+  CgProfile
 };
 
 export default icons;

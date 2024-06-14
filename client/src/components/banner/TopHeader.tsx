@@ -17,6 +17,7 @@ interface User {
   name: string;
   phone: string;
   rolesUser: IRoleUser[];
+  avatar: string
 }
 
 interface UserStore {
@@ -71,7 +72,7 @@ const TopHeader = ({ location }: any) => {
           <span>{current && current?.name}</span>
         </div>
         <div>
-          <img className="w-10 h-10" src={avatar}></img>
+          <img className="w-10 h-10 rounded-full" src={current?.avatar ? current?.avatar : avatar}></img>
         </div>
         {current && isShow && (
           <div className="absolute top-full z-50 right-0 bg-white p-4 flex rounded-sm drop-shadow-sm flex-col text-black">

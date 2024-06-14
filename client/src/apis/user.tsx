@@ -10,3 +10,9 @@ export const apiGetRole = () => instanceAxios({
     url: '/user/roles',
     method: 'GET'
 })
+
+export const apiUpdateUser = (data: any) => instanceAxios({
+    url: '/user//update-user',
+    method: 'PATCH',
+    data
+})

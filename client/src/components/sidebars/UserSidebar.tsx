@@ -1,8 +1,10 @@
-import { adminSideBarNavigate } from "../../utils/constant";
+import { userSideBarNavigate } from "../../utils/constant";
 import { NavLink } from "react-router-dom";
 import icons from "../../utils/icons";
 import clsx from "clsx";
 import { useState } from "react";
+import { useUserStore } from "../../store/useUserStore";
+import avatar_temp from '../../assets/avatar.temp.png'
 
 const {
   MdDashboard,
@@ -11,6 +13,7 @@ const {
   FaChevronUp,
   MdCreateNewFolder,
   MdManageSearch,
+  CgProfile,
 } = icons;
 
 const iconMap: { [key: string]: JSX.Element } = {
@@ -18,19 +21,33 @@ const iconMap: { [key: string]: JSX.Element } = {
   BsFillHouseGearFill: <BsFillHouseGearFill size={20} />,
   MdCreateNewFolder: <MdCreateNewFolder size={20} />,
   MdManageSearch: <MdManageSearch size={20} />,
+  CgProfile: <CgProfile size={28} />,
 };
 
-const AdminSidebar = () => {
+const UserSidebar = () => {
   const [currentSideBar, setCurrentSideBar] = useState<string[]>([]);
+  const { current }: any = useUserStore();
+  console.log("🚀 ~ UserSidebar ~ current:", current);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full py-10 h-screen">
       <div className="w-full flex-col items-center flex justify-center">
-        <p className="font-agbalumo text-4xl p-4">LAND</p>
-        <small className="text-gray-50 italic mt-2">admin : info</small>
+        <div className="md:w-20 md:h-20">
+            <img className="w-full h-full object-cover rounded-full" src={current?.avatar ? current?.avatar : avatar_temp}></img>
+        </div>
+        <span className="mt-2">{current?.name}</span>
+        <div className="mt-4">
+            {
+                current?.rolesUser?.map((item : {roleCode: string, value: string}) => {
+                    return (
+                        <small className="w-10 h-3 rounded-xl bg-white text-gray-800 p-2">{item?.value}</small>
+                    )
+                })
+            }
+        </div>
       </div>
       <div className="mt-4">
-        {adminSideBarNavigate.map((el) => (
+        {userSideBarNavigate.map((el) => (
           <div className="flex flex-col" key={el.id}>
             {el.type === "single" && (
               <NavLink
@@ -74,27 +91,6 @@ const AdminSidebar = () => {
                     </span>
                   </div>
                 </div>
-                <div className="pl-2">
-                  {currentSideBar.includes(el.id) && (
-                    <div>
-                      {el?.subs?.map((el) => (
-                        <NavLink
-                          to={el.path!}
-                          className={({ isActive }) =>
-                            clsx(
-                              "flex items-center gap-2 w-full p-4 ",
-                              isActive &&
-                                "bg-opacity-25 border-r-4 border-white"
-                            )
-                          }
-                        >
-                          <span>{iconMap[el.icon]}</span>
-                          <span className="">{el.name}</span>
-                        </NavLink>
-                      ))}
-                    </div>
-                  )}
-                </div>
               </div>
             )}
           </div>
@@ -104,4 +100,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default UserSidebar;

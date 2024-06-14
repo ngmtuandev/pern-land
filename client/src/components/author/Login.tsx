@@ -85,6 +85,8 @@ const Login = () => {
     if (varient === "REGISTER") {
       if (data && data?.role !== "ROLE4") {
         handleSendOTP(data?.phone);
+      } else {
+        handleRegisterValidated(data);
       }
     } else {
       const { name, role, ...payload } = data;

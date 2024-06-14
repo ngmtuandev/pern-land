@@ -59,6 +59,16 @@ export const adminSideBarNavigate = [
   },
 ];
 
+export const userSideBarNavigate = [
+  {
+    id: `${Math.random()} ${Date.now()}`,
+    name: "User Personal",
+    path: `/${path.USER_LAYOUT}/${path.USER_PERSONAL}`,
+    icon: "CgProfile",
+    type: "single",
+  }
+];
+
 export const menuConstant = [
   {
     id: 1,
