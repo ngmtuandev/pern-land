@@ -42,17 +42,20 @@ const Properties = () => {
   }, [searchParams, sort]);
 
   return (
-    <div className="w-full flex justify-center flex-col items-center">
+    <div className="w-full px-5 flex justify-center flex-col items-center">
       <div className="relative w-full">
-        <img src={thumb} className="w-full object-contain"></img>
-        <div className="absolute gap-3 inset-0 text-white flex-col flex justify-center items-center">
-          <h1 className="text-5xl font-semibold">Property</h1>
-          <div>
+        <img
+          src={thumb}
+          className="md:w-full hidden md:block object-contain"
+        ></img>
+        <div className="md:absolute gap-3 md:inset-0 text-white flex-col md:flex md:justify-center md:items-center">
+          <h1 className="md:text-5xl hidden md:font-semibold">Property</h1>
+          <div className="">
             <BreadCrumb></BreadCrumb>
           </div>
         </div>
       </div>
-      <div className="w-main my-20">
+      <div className="md:w-main md:px-0 my-20">
         <div className="flex justify-between items-center mb-4">
           <div className="w-[8%] flex items-center gap-2">
             <span>Sort: </span>
@@ -70,7 +73,7 @@ const Properties = () => {
               ></InputSelect>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="md:flex hidden items-center gap-3">
             <div onClick={() => setFilterSelect("all")}>
               <Button
                 containerClassName={twMerge(
@@ -109,7 +112,7 @@ const Properties = () => {
             </div>
           </div>
         </div>
-        <div className="w-full grid grid-cols-3 gap-4">
+        <div className="w-full md:gap-0 gap-6 md:px-0 lg:grid lg:grid-cols-3 lg:gap-4 flex justify-center flex-col items-center">
           {property?.rows &&
             property?.rows?.map((item: TProperty, index: number | string) => {
               return <Card key={index} item={item}></Card>;

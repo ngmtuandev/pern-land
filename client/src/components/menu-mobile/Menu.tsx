@@ -5,7 +5,6 @@ import NavigateMobile from "./NavigateMobile";
 import { useUserStore } from "../../store/useUserStore";
 import { menuConstant } from "../../utils/constant";
 import { Link } from "react-router-dom";
-import avatar from "../../assets/avatar.svg";
 import Button from "../commons/Button";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
@@ -27,8 +26,14 @@ interface UserStore {
   logout: () => void;
 }
 const Menu = () => {
-  const { isShowMenu, setShowMenu, setModel }: any = useModelStore();
-  const { IoMdClose } = icons;
+  const {
+    isShowMenu,
+    setShowMenu,
+    setModel,
+    setIsMenuContent,
+    isMenuContent,
+  }: any = useModelStore();
+  const { IoMdClose, FaBars, FaSearch } = icons;
   const { current, logout } = useUserStore() as UserStore;
   return (
     <div
@@ -41,9 +46,19 @@ const Menu = () => {
           <IoMdClose color="gray" size={40}></IoMdClose>
         </div>
         <div>
-          {current && (
-            <div>
-              <img className="w-10 h-10" src={avatar}></img>
+          {isMenuContent ? (
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsMenuContent(false)}
+            >
+              <FaSearch color="gray" size={24}></FaSearch>
+            </div>
+          ) : (
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsMenuContent(true)}
+            >
+              <FaBars color="gray" size={24}></FaBars>
             </div>
           )}
           {current && (
@@ -67,30 +82,19 @@ const Menu = () => {
               </span>
             </div>
           )}
-          {current ? (
-          <Button
-            styleCss={twMerge(
-              clsx(
-                location.pathname === "/" &&
-                  "bg-transparent border border-white"
-              )
-            )}
-          >
-            Add Listing
-          </Button>
-        ) : (
-          <Button
-            handleOnClick={() => setModel(true, <Login />)}
-            styleCss={twMerge(
-              clsx(
-                location.pathname === "/" &&
-                  "bg-transparent border border-white"
-              )
-            )}
-          >
-            Sign in
-          </Button>
-        )}
+          {!current && (
+            <Button
+              handleOnClick={() => setModel(true, <Login />)}
+              styleCss={twMerge(
+                clsx(
+                  location.pathname === "/" &&
+                    "bg-transparent border border-white"
+                )
+              )}
+            >
+              Sign in
+            </Button>
+          )}
         </div>
       </div>
       <div className="mt-6">

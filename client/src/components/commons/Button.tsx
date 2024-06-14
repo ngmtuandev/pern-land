@@ -10,7 +10,7 @@ const Button = ({ children, containerClassName, handleOnClick, type = 'button', 
     <button
       type={type}
       onClick={handleOnClick}
-      className={twMerge(clsx('px-4 py-2 gap-2 text-white bg-opacity-90 justify-center bg-yellow-bold-main flex items-center rounded-md', 
+      className={twMerge(clsx('px-4 py-2 gap-2 text-white justify-center bg-yellow-bold-main flex items-center rounded-md', 
       containerClassName, isLoading && 'opacity-60'))}
       disabled={isLoading}
     >

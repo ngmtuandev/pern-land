@@ -10,7 +10,7 @@ const LayoutPublic = ({ location }: any) => {
     <main className={`${isShowModel && "overflow-hidden h-screen"}`}>
       <TopHeader />
       <Navigation />
-      <div className={clsx(location.pathname === "/" ? "pt-0" : "pt-[232px]")}>
+      <div className={clsx(location.pathname === "/" ? "pt-0" : "md:pt-[232px] pt-5")}>
         <Outlet></Outlet>
       </div>
     </main>

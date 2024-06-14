@@ -3,10 +3,10 @@ import icons from "../../utils/icons";
 const Card = ({ item }: any) => {
   const { FaBath, FaBed, FaUser, IoMdContacts } = icons;
   return (
-    <div className="border rounded-md p-4">
+    <div className="border sm:w-screen md:w-full rounded-md p-4">
       <img
         src={item?.featuredImage}
-        className="w-full h-[240px] object-cover"
+        className="md:w-full w-full object-cover"
       ></img>
       <div className="">
         <h1 className="text-xl h-20 uppercase font-semibold text-gray-700">

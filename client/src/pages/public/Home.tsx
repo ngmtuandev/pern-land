@@ -4,10 +4,8 @@ import icons from "../../utils/icons";
 import { useModelStore } from "../../store/useModelStore";
 
 const Home = () => {
-  
-  const { isShowMenu, setShowMenu }: any = useModelStore()
+  const { isShowMenu, setShowMenu }: any = useModelStore();
   const { FaBars } = icons;
-
 
   return (
     <div className="w-full">
@@ -29,9 +27,11 @@ const Home = () => {
           </p>
         </div>
       </div>
-      <div className="w-main mx-auto">
-        <Search></Search>
-      </div>
+      {!isShowMenu && (
+        <div className="w-main mx-auto">
+          <Search></Search>
+        </div>
+      )}
     </div>
   );
 };

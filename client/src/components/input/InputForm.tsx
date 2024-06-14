@@ -19,7 +19,7 @@ const InputForm = ({style = 'form-input', containerClassName,
     label, id, type = 'text', register, errors, inputClassName, validate, placeholder} 
     : TForm) => {
   return (
-    <div className={twMerge(clsx('flex flex-col w-full gap-1 mb-2', containerClassName))}>
+    <div className={twMerge(clsx('flex flex-col w-full -gap-2 md:gap-1 mg:mb-2', containerClassName))}>
         {label && <label className="font-medium text-gray-700" htmlFor={id}>{label}</label>}
         <input type={type} id={id} className={twMerge(clsx(style, 'placeholder:text-sm', inputClassName))}
         {...register(id, validate)}

@@ -16,9 +16,11 @@ import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { FaSearch } from "react-icons/fa";
 
 
 const icons = {
+  FaSearch,
   FaBars,
   FaArrowRight,
   FaArrowLeft,
