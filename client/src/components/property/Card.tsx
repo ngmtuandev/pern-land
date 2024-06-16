@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import { formatMoney } from "../../helper/formatMoney";
 import icons from "../../utils/icons";
+import { XHelper } from "../../utils/helper";
 const Card = ({ item }: any) => {
   const { FaBath, FaBed, FaUser, IoMdContacts } = icons;
   return (
@@ -9,9 +11,15 @@ const Card = ({ item }: any) => {
         className="md:w-full w-full object-cover"
       ></img>
       <div className="">
-        <h1 className="text-xl h-20 uppercase font-semibold text-gray-700">
+        <Link
+          to={`${XHelper.slugify(item?.name)}`}
+          state={{
+            properties: item,
+          }}
+          className="text-xl hover:underline cursor-pointer h-20 uppercase font-semibold text-gray-700"
+        >
           {item?.name}
-        </h1>
+        </Link>
         <span className="text-lg font-bold text-yellow-bold-main">{`$ ${formatMoney(
           item?.price
         )}`}</span>

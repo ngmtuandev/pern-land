@@ -6,7 +6,7 @@ const Breadcrumb = () => {
   return (
     <nav>
       <ul className="breadcrumb">
-        <li className="md:text-white text-gray-700">
+        <li className="md:text-yellow-bold-main text-yellow-bold-main">
           <Link to="/">Home</Link>
         </li>
         {pathnames.map((value, index) => {

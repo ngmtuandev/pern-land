@@ -15,6 +15,7 @@ import {
 } from "../pages/public";
 import { Personal, UserLayout } from "../pages/user";
 import path from "./path";
+import { PropertiesDetail } from "../components";
 
 const router: RouteObject[] = [
   {
@@ -40,6 +41,10 @@ const router: RouteObject[] = [
           {
             path: path.PROPERTIES,
             element: <Properties />,
+          },
+          {
+            path: path.PROPERTIES__NAME_PROPERTIES,
+            element: <PropertiesDetail />,
           },
         ],
       },
