@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "owner",
         as: "refOwner",
       });
+      Property.belongsTo(models.PropertyType, {
+        foreignKey: "propertyTypeId",
+        as: "refPropertiesType",
+      });
     }
   }
   Property.init(

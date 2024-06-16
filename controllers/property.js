@@ -6,7 +6,7 @@ const { generateIpKeyRedis } = require("../helper/XFunction");
 
 exports.getProperties = asyncHandler(async (req, res) => {
   const { limit, page, fields, address, type, name, sort, price, ...query } =
-  req.query;
+    req.query;
   const options = {}; // all fields wants select
 
   // Sorting
@@ -71,10 +71,7 @@ exports.getProperties = asyncHandler(async (req, res) => {
 
     const response = await db.Property.findAll({ where: query, ...options });
     redis.set(keyPropertyRedis, JSON.stringify(response));
-    redis.expireAt(
-      keyPropertyRedis,
-      paresponseeInt(+new Date() / 1000) + 2000
-    );
+    redis.expireAt(keyPropertyRedis, paresponseeInt(+new Date() / 1000) + 2000);
 
     return res.json({
       statusCode: response?.length > 0 ? 200 : 400,
@@ -114,5 +111,37 @@ exports.getProperties = asyncHandler(async (req, res) => {
     success: response?.length > 0 ? true : false,
     message: response?.length > 0 ? "Get property success" : "Get failure",
     data: response && { ...response, limit: +limit, page: +page ? +page : 1 },
+  });
+});
+
+exports.getDetailProperty = asyncHandler(async (req, res) => {
+  const { propertyId } = req.params;
+
+  const resultGetDetail = await db.Property.findByPk(propertyId, {
+    include: [
+      {
+        model: db.User,
+        as: "refUser",
+        attributes: ["name", "phone", "avatar"],
+      },
+      {
+        model: db.User,
+        as: "refOwner",
+        attributes: ["name", "phone", "avatar"],
+      },
+      {
+        model: db.PropertyType,
+        as: "refPropertiesType",
+        attributes: ["name", "image"],
+      },
+    ],
+  });
+  return res.json({
+    statusCode: resultGetDetail ? 200 : 400,
+    success: !!resultGetDetail,
+    message: resultGetDetail
+      ? "Get property success"
+      : "Get properties failure",
+    data: resultGetDetail,
   });
 });

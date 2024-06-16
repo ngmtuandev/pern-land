@@ -6,6 +6,7 @@ router.use(redisWithLimitSpam) // call redisWithLimitSpam
 
 
 router.get('/get-properties', controller.getProperties);
+router.get('/get-detail-property/:propertyId', controller.getDetailProperty)
 
 
 
