@@ -1,9 +1,10 @@
-import { Carousel } from "nuka-carousel";
-const ImageModel = ({ images = [], slideToShow = 1, slideToScroll = 1 }) => {
+import { Carousel } from "antd";
+
+const ImageModel = ({ images = [] }) => {
   return (
-    <div className="bg-overlay-50 w-screen h-screen mt-[12%] overflow-hidden">
-      <div className="" onClick={(e) => e.stopPropagation()}>
-        <Carousel className="w-full h-full" showDots showArrows keyboard={false}>
+    <div className="bg-black px-6 bg-opacity-70 w-screen h-screen flex justify-center items-center overflow-hidden">
+      <div onClick={(event) => event.stopPropagation()}>
+        <Carousel arrows dotPosition="left" infinite={false}>
           {images?.map((item) => (
             <div>
               <img
